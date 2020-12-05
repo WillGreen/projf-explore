@@ -19,10 +19,10 @@ create_clock -period 10.000 -name clk_100m [get_ports {clk_100m}];
 set_property -dict {PACKAGE_PIN G4  IOSTANDARD LVCMOS15} [get_ports {btn_rst}];
 
 ## HDMI Source
-set_property -dict {PACKAGE_PIN T1 IOSTANDARD TMDS_33} [get_ports {hdmi_tx_clk_p}];
-set_property -dict {PACKAGE_PIN U1 IOSTANDARD TMDS_33} [get_ports {hdmi_tx_clk_n}];
-set_property -dict {PACKAGE_PIN W1 IOSTANDARD TMDS_33} [get_ports {hdmi_tx_ch0_p}];
-set_property -dict {PACKAGE_PIN Y1 IOSTANDARD TMDS_33} [get_ports {hdmi_tx_ch0_n}];
+set_property -dict {PACKAGE_PIN T1  IOSTANDARD TMDS_33} [get_ports {hdmi_tx_clk_p}];
+set_property -dict {PACKAGE_PIN U1  IOSTANDARD TMDS_33} [get_ports {hdmi_tx_clk_n}];
+set_property -dict {PACKAGE_PIN W1  IOSTANDARD TMDS_33} [get_ports {hdmi_tx_ch0_p}];
+set_property -dict {PACKAGE_PIN Y1  IOSTANDARD TMDS_33} [get_ports {hdmi_tx_ch0_n}];
 set_property -dict {PACKAGE_PIN AA1 IOSTANDARD TMDS_33} [get_ports {hdmi_tx_ch1_p}];
 set_property -dict {PACKAGE_PIN AB1 IOSTANDARD TMDS_33} [get_ports {hdmi_tx_ch1_n}];
 set_property -dict {PACKAGE_PIN AB3 IOSTANDARD TMDS_33} [get_ports {hdmi_tx_ch2_p}];
