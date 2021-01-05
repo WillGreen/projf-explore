@@ -6,15 +6,23 @@
 
 DIR=`dirname $0`
 
+echo "## Linting top modules in ${DIR}/xc7-hd"
+for f in ${DIR}/xc7-hd/top_*\.*v; do
+    echo "##   Checking ${f}";
+    verilator -Wall --lint-only -I${DIR} -I${DIR}/xc7-hd \
+        -I${DIR}/../common -I${DIR}/../common/xc7 -I${DIR}/../common/xc7/null \
+        -I${DIR}/../common/xc7-hd -I${DIR}/../common/xc7-hd/null $f;
+done
+
 echo "## Linting top modules in ${DIR}/xc7"
-for f in ${DIR}/xc7/top_*.sv; do
+for f in ${DIR}/xc7/top_*\.*v; do
     echo "##   Checking ${f}";
     verilator -Wall --lint-only -I${DIR} -I${DIR}/xc7 \
         -I${DIR}/../common -I${DIR}/../common/xc7 -I${DIR}/../common/xc7/null $f;
 done
 
 echo "## Linting top modules in ${DIR}/ice40"
-for f in ${DIR}/ice40/top_*.sv; do
+for f in ${DIR}/ice40/top_*\.*v; do
     echo "##   Checking ${f}";
     verilator -Wall --lint-only -I${DIR} -I${DIR}/ice40 \
         -I${DIR}/../common -I${DIR}/../common/ice40 -I${DIR}/../common/ice40/null $f;
