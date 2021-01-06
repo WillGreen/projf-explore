@@ -46,8 +46,8 @@ module top_sprite_v3 (
     localparam V_RES = 480;
 
     // sprite
-    localparam SPR_WIDTH   = 8;  // width in pixels
-    localparam SPR_HEIGHT  = 8;  // number of lines
+    localparam SPR_WIDTH   = 8;   // width in pixels
+    localparam SPR_HEIGHT  = 8;   // number of lines
     localparam SPR_SCALE_X = 10;  // width scale-factor
     localparam SPR_SCALE_Y = 10;  // height scale-factor
     localparam SPR_FILE = "letter_f.mem";
