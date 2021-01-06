@@ -145,14 +145,14 @@ module top_hedgehog (
         /* verilator lint_on PINCONNECTEMPTY */
     );
 
-    // Colour Lookup Table
+    // sprite colour lookup table
     logic [11:0] clut [11];  // 11 x 12-bit colour palette entries
     initial begin
         $display("Loading palette '%s' into CLUT.", SPR_PALETTE);
         $readmemh(SPR_PALETTE, clut);  // load palette into CLUT
     end
 
-    // map colour index to palette using CLUT
+    // map sprite colour index to palette using CLUT
     logic pix_trans;  // pixel transparent?
     logic [3:0] red_spr, green_spr, blue_spr;  // pixel colour components
     always_comb begin
@@ -160,12 +160,39 @@ module top_hedgehog (
         {red_spr, green_spr, blue_spr} = clut[spr_pix];
     end
 
-    // colours
+    // background colours
+    localparam COLR_A   = 'h125;  // initial colour A
+    localparam COLR_B   = 'h150;  // initial colour B
+    localparam SLIN_A   = 'd000;  // start of colour A
+    localparam SLIN_B   = 'd539;  // start of colour B
+    localparam LINE_INC = 'd51;   // lines of each colour
+
+    logic [11:0] bg_colr;  // 12 bit colour (4-bit per channel)
+    logic [$clog2(LINE_INC)-1:0] cnt_line;
+    always_ff @(posedge clk_pix) begin
+        if (sy == SLIN_A && sx == 0) begin
+            cnt_line <= 0;
+            bg_colr <= COLR_A;
+        end else if (sy == SLIN_B && sx == 0) begin
+            cnt_line <= 0;
+            bg_colr <= COLR_B;
+        end else if (sx == 0) begin
+            cnt_line <= cnt_line + 1;
+            if (cnt_line == LINE_INC-1) begin
+                cnt_line <= 0;
+                bg_colr <= bg_colr + 'h111;
+            end
+        end
+    end
+
+    // combine sprite and background colours
+    logic [3:0] red_bg, green_bg, blue_bg;  // background colour components
     logic [7:0] red, green, blue;
     always_comb begin
-        red   = (de && spr_draw && !pix_trans) ? {red_spr,red_spr}     : 8'h00;
-        green = (de && spr_draw && !pix_trans) ? {green_spr,green_spr} : 8'h00;
-        blue  = (de && spr_draw && !pix_trans) ? {blue_spr,blue_spr}   : 8'h00;
+        {red_bg, green_bg, blue_bg} = bg_colr;
+        red   = (de && spr_draw && !pix_trans) ? {red_spr,red_spr}     : {red_bg, red_bg};
+        green = (de && spr_draw && !pix_trans) ? {green_spr,green_spr} : {green_bg, green_bg};
+        blue  = (de && spr_draw && !pix_trans) ? {blue_spr,blue_spr}   : {blue_bg, blue_bg};
     end
 
     // TMDS encoding and serialization
