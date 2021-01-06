@@ -35,11 +35,9 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 set fs_design_obj [get_filesets sources_1]
 
 # Top design sources (not used in simulation)
-# [file normalize "${origin_dir}/xc7-hd/top_hedgehog.sv"] \
-# [file normalize "${origin_dir}/xc7-hd/top_hedgehog_v1.sv"] \
-
-
 set top_sources [list \
+  [file normalize "${origin_dir}/xc7-hd/top_hedgehog.sv"] \
+  [file normalize "${origin_dir}/xc7-hd/top_hedgehog_v1.sv"] \
   [file normalize "${origin_dir}/xc7-hd/top_sprite_v1.sv"] \
   [file normalize "${origin_dir}/xc7-hd/top_sprite_v2.sv"] \
   [file normalize "${origin_dir}/xc7-hd/top_sprite_v3.sv"] \
@@ -49,8 +47,7 @@ add_files -norecurse -fileset $fs_design_obj $top_sources
 set design_top_obj [get_files -of_objects [get_filesets sources_1]]
 set_property -name "used_in_simulation" -value "0" -objects $design_top_obj
 
-# set_property -name "top" -value "top_hedgehog" -objects $fs_design_obj
-set_property -name "top" -value "top_sprite_v3a" -objects $fs_design_obj
+set_property -name "top" -value "top_hedgehog" -objects $fs_design_obj
 set_property -name "top_auto_set" -value "0" -objects $fs_design_obj
 
 # Design sources (used in simulation)
