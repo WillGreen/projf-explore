@@ -23,13 +23,13 @@ module sprite_v3 #(
     output      logic pix                // pixel colour to draw
     );
 
-    logic memory [DEPTH];  // 1 bit per pixel
+    logic mem [DEPTH];  // 1 bit per pixel
 
     // load sprite graphic into memory (binary text format)
     initial begin
         if (SPR_FILE != 0) begin
             $display("Creating sprite from file '%s'.", SPR_FILE);
-            $readmemb(SPR_FILE, memory);
+            $readmemb(SPR_FILE, mem);
         end
     end
 
@@ -98,7 +98,7 @@ module sprite_v3 #(
 
     // output current pixel colour when drawing
     always_comb begin
-        pix = (state == DRAW) ? memory[pos] : 0;
+        pix = (state == DRAW) ? mem[pos] : 0;
     end
 
     // create status signals and correct horizontal position
